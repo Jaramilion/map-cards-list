@@ -15,14 +15,14 @@ export function MapFilters({ handleChange }: MapFilters) {
     <Box
       position="fixed"
       top={"10px"}
+      left={{ base: 4, md: "auto" }}
       zIndex={1}
-      w={{ base: "94vw", lg: "43vw" }}
+      w={{ base: "94vw", md: "38vw" }}
     >
       <Select.Root
         collection={createListCollection({ items: FILTERS })}
         size="lg"
         variant={"subtle"}
-        width={"100%"}
         onValueChange={handleChange}
       >
         <Select.HiddenSelect />

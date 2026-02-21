@@ -1,5 +1,4 @@
 export const API_URL = "https://cdn.urbansdk.com/exampledata/samples.json";
-export const CLEAR_FILTERS = { label: "Clear filters", value: "Clear filters" };
 export const FILTERS = [
   { label: "US Census 2019", value: "US Census 2019" },
   { label: "FDOT 2019", value: "FDOT 2019" },

@@ -1,6 +1,5 @@
 import {
   Button,
-  DataList,
   Flex,
   Spinner,
   type SelectValueChangeDetails,
@@ -9,21 +8,28 @@ import "./App.css";
 import { useFetch } from "./hooks/useFetch";
 import { API_URL } from "./utils";
 import type { MapTopics } from "./types";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { MapFilters } from "./components/MapFilters";
-import { MapCardItem } from "./components/MapCardItem";
+
+import { sleep } from "./utils/misc";
+import { MapCardList } from "./components/MapCardList";
 
 function App() {
   const { data, loading, error, retry } = useFetch<MapTopics[]>(API_URL);
-  const [filteredData, setFilteredData] = useState<MapTopics[] | null>(null);
 
-  function handleChange({ value }: SelectValueChangeDetails) {
-    window.scrollTo(0, 0);
-    if (value.length === 0) {
-      return setFilteredData(data);
-    }
-    const newFilteredData = data.filter((item) => item.subLabel === value[0]);
-    setFilteredData(newFilteredData);
+  const [filteredData, setFilteredData] = useState<MapTopics[] | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  function handleFiltersChange({ value }: SelectValueChangeDetails) {
+    startTransition(async () => {
+      await sleep(400);
+      window.scrollTo(0, 0);
+      if (value.length === 0) {
+        return setFilteredData(data);
+      }
+      const newFilteredData = data.filter((item) => item.subLabel === value[0]);
+      setFilteredData(newFilteredData);
+    });
   }
 
   const displayData = filteredData ?? data;
@@ -48,19 +54,14 @@ function App() {
   return (
     <Flex
       flexDirection={"column"}
-      w={{ md: "100vw", lg: "45vw" }}
-      minHeight={"100vh"}
+      w={{ md: "100vw", lg: "40vw" }}
       bg="#242424"
       gap={2}
-      p={4}
       pb={12}
+      p={4}
     >
-      <MapFilters handleChange={handleChange} />
-      <DataList.Root pt={16}>
-        {displayData.map((card) => (
-          <MapCardItem key={card.description} {...card} />
-        ))}
-      </DataList.Root>
+      <MapFilters handleChange={handleFiltersChange} />
+      <MapCardList displayData={displayData} isPending={isPending} />
     </Flex>
   );
 }

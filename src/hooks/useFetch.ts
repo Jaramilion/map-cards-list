@@ -9,20 +9,18 @@ export function useFetch<T>(url: string) {
   useEffect(() => {
     async function fetchCards() {
       setLoading(true);
-      setTimeout(async () => {
-        try {
-          const response = await fetch(url);
-          if (response.ok) {
-            const parsedResponse = await response.json();
-            setData(parsedResponse);
-          }
-        } catch (error) {
-          setError(new Error("A Fetch error ocurred", { cause: error }));
-          console.error(error);
-        } finally {
-          setLoading(false);
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          const parsedResponse = await response.json();
+          setData(parsedResponse);
         }
-      }, 2000);
+      } catch (error) {
+        setError(new Error("A Fetch error ocurred", { cause: error }));
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
     }
     fetchCards();
   }, [url, reloadKey]);
