@@ -1,3 +1,4 @@
+import { apiClient } from "@/client/api";
 import { useCallback, useEffect, useState } from "react";
 
 export function useFetch<T>(url: string) {
@@ -10,11 +11,8 @@ export function useFetch<T>(url: string) {
     async function fetchCards() {
       setLoading(true);
       try {
-        const response = await fetch(url);
-        if (response.ok) {
-          const parsedResponse = await response.json();
-          setData(parsedResponse);
-        }
+        const data = await apiClient<T>({ url });
+        setData(data);
       } catch (error) {
         setError(new Error("A Fetch error ocurred", { cause: error }));
         console.error(error);
