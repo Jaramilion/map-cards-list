@@ -13,7 +13,6 @@ export default defineConfig({
     tsconfigPaths(),
   ],
   build: {
-    // Aumentamos un poco el límite porque las librerías 3D son inherentemente pesadas
     chunkSizeWarningLimit: 800,
     rollupOptions: {
       output: {
