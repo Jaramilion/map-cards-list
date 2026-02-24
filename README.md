@@ -29,7 +29,7 @@ VITE_MAPBOX_TOKEN=your_mapbox_public_token_here
 1. Clone the repository and navigate to the project folder.
 2. Install the dependencies:
    ```bash
-   npm install
+   pnpm install
    ```
 
 ### Development server
@@ -37,7 +37,7 @@ VITE_MAPBOX_TOKEN=your_mapbox_public_token_here
 Start the local development server (Vite):
 
 ```bash
-   npm run dev
+   pnpm dev
 ```
 
 The application will be available at `http://localhost:5173`
