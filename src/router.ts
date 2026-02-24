@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router";
-import App from "./app/App";
 import { apiClient } from "./client/api";
 import { API_URL } from "./utils";
 
@@ -7,7 +6,9 @@ import type { MapConfig, MapData, MapTopics } from "./types";
 import { Loading } from "./components/Loading";
 import { GenericError } from "./components/GenericError";
 import { sanitizeData } from "./utils/misc";
-import { MapDetails } from "./app/MapDetails";
+
+// El RootLayout se importa estáticamente porque es el "cascarón" de tu app
+// y se necesita inmediatamente para mostrar la UI inicial y el Loading.
 import { RootLayout } from "./app/RootLayout";
 
 export const router = createBrowserRouter([
@@ -17,7 +18,10 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: App,
+        lazy: async () => {
+          const { App } = await import("./app/App");
+          return { Component: App };
+        },
         loader: async () => {
           const data = await apiClient<MapTopics[]>({ url: API_URL });
           return sanitizeData(data);
@@ -30,7 +34,11 @@ export const router = createBrowserRouter([
       },
       {
         path: ":mapId",
-        Component: MapDetails,
+
+        lazy: async () => {
+          const { MapDetails } = await import("./app/MapDetails");
+          return { Component: MapDetails };
+        },
         loader: async ({ params }) => {
           const { mapId } = params;
           const data = await apiClient<MapTopics[]>({ url: API_URL });
@@ -42,8 +50,10 @@ export const router = createBrowserRouter([
             throw new Error("Map details not found");
           }
 
-          const mapData = await apiClient<MapConfig>({ url: item.dataUrl });
-          const config = await apiClient<MapData>({ url: item.configUrl });
+          const [mapData, config] = await Promise.all([
+            apiClient<MapConfig>({ url: item.dataUrl }),
+            apiClient<MapData>({ url: item.configUrl }),
+          ]);
 
           return {
             config,

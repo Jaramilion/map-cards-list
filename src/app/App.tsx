@@ -8,7 +8,7 @@ import { MapFilters } from "../components/MapFilters";
 import { MapCardList } from "../components/MapCardList";
 import { useLoaderData, useSearchParams } from "react-router";
 
-function App() {
+export function App() {
   const data = useLoaderData<MapTopics[]>();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -37,5 +37,3 @@ function App() {
     </Flex>
   );
 }
-
-export default App;

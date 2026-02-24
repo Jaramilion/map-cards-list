@@ -12,4 +12,17 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  build: {
+    // Aumentamos un poco el límite porque las librerías 3D son inherentemente pesadas
+    chunkSizeWarningLimit: 800,
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          if (id.includes("node_modules/mapbox-gl")) {
+            return "vendor-mapbox";
+          }
+        },
+      },
+    },
+  },
 });

@@ -38,9 +38,9 @@ export function MapFilters({ handleChange, value }: MapFilters) {
       <Portal>
         <Select.Positioner>
           <Select.Content>
-            {FILTERS.map((framework) => (
-              <Select.Item item={framework} key={framework.value}>
-                {framework.label}
+            {FILTERS.map((item) => (
+              <Select.Item item={item} key={item.value}>
+                <Select.ItemText>{item.label}</Select.ItemText>
                 <Select.ItemIndicator />
               </Select.Item>
             ))}

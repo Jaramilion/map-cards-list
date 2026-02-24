@@ -1,3 +1,5 @@
+import type { FeatureCollection, Geometry, GeoJsonProperties } from "geojson";
+
 export type MapTopics = Readonly<{
   id: string;
   label: string;
@@ -30,18 +32,4 @@ export type MapConfig = Readonly<{
   };
 }>;
 
-export type MapData = Readonly<{
-  type: "FeatureCollection";
-  label: string;
-  features: Array<{
-    type: "Feature";
-    geometry: {
-      type: "MultiPolygon";
-      coordinates: number[][][][];
-    };
-    properties: {
-      name: string;
-      [key: string]: number | null | string;
-    };
-  }>;
-}>;
+export type MapData = FeatureCollection<Geometry, GeoJsonProperties>;

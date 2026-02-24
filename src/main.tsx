@@ -5,6 +5,7 @@ import { Provider } from "@/components/ui/provider";
 
 import { RouterProvider } from "react-router/dom";
 import { router } from "./router.ts";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
