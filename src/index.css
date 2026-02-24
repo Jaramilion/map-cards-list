@@ -20,4 +20,20 @@ body {
 
 html {
   overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+.default-container {
+  font-size: x-large;
+  min-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(36, 36, 36, 0.7);
+  backdrop-filter: blur(3px);
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  position: fixed;
 }

@@ -1,6 +1,5 @@
 import { FILTERS } from "@/utils";
 import {
-  Box,
   createListCollection,
   Portal,
   Select,
@@ -9,47 +8,45 @@ import {
 
 export type MapFilters = Readonly<{
   handleChange: ({ value }: SelectValueChangeDetails) => void;
+  value: string[];
 }>;
-export function MapFilters({ handleChange }: MapFilters) {
+export function MapFilters({ handleChange, value }: MapFilters) {
   return (
-    <Box
-      position="fixed"
+    <Select.Root
+      position="sticky"
       top={"10px"}
-      left={{ base: 4, md: "auto" }}
       zIndex={1}
-      w={{ base: "94vw", md: "38vw" }}
+      w={{ base: "100%" }}
+      collection={createListCollection({ items: FILTERS })}
+      size="lg"
+      variant={"subtle"}
+      onValueChange={handleChange}
+      value={value}
     >
-      <Select.Root
-        collection={createListCollection({ items: FILTERS })}
-        size="lg"
-        variant={"subtle"}
-        onValueChange={handleChange}
-      >
-        <Select.HiddenSelect />
-        <Select.Control>
-          <Select.Trigger>
-            <Select.ValueText placeholder="Select a filter" />
-          </Select.Trigger>
-          <Select.IndicatorGroup>
-            <Select.ClearTrigger _hover={{ cursor: "pointer" }}>
-              Clear filters
-            </Select.ClearTrigger>
-            <Select.Indicator />
-          </Select.IndicatorGroup>
-        </Select.Control>
-        <Portal>
-          <Select.Positioner>
-            <Select.Content>
-              {FILTERS.map((framework) => (
-                <Select.Item item={framework} key={framework.value}>
-                  {framework.label}
-                  <Select.ItemIndicator />
-                </Select.Item>
-              ))}
-            </Select.Content>
-          </Select.Positioner>
-        </Portal>
-      </Select.Root>
-    </Box>
+      <Select.HiddenSelect />
+      <Select.Control>
+        <Select.Trigger>
+          <Select.ValueText placeholder="Select a filter" />
+        </Select.Trigger>
+        <Select.IndicatorGroup>
+          <Select.ClearTrigger _hover={{ cursor: "pointer" }}>
+            Clear filters
+          </Select.ClearTrigger>
+          <Select.Indicator />
+        </Select.IndicatorGroup>
+      </Select.Control>
+      <Portal>
+        <Select.Positioner>
+          <Select.Content>
+            {FILTERS.map((framework) => (
+              <Select.Item item={framework} key={framework.value}>
+                {framework.label}
+                <Select.ItemIndicator />
+              </Select.Item>
+            ))}
+          </Select.Content>
+        </Select.Positioner>
+      </Portal>
+    </Select.Root>
   );
 }

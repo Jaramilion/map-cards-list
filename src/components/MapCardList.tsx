@@ -4,7 +4,7 @@ import type { MapTopics } from "@/types";
 
 export type MapCardListProps = Readonly<{
   displayData: MapTopics[];
-  isPending: boolean;
+  isPending?: boolean;
 }>;
 export function MapCardList({ displayData, isPending }: MapCardListProps) {
   if (isPending) {
@@ -15,9 +15,9 @@ export function MapCardList({ displayData, isPending }: MapCardListProps) {
     );
   }
   return (
-    <DataList.Root pt={20}>
+    <DataList.Root pt={5}>
       {displayData.map((card) => (
-        <MapCardItem key={card.description} {...card} />
+        <MapCardItem key={card.id} {...card} />
       ))}
     </DataList.Root>
   );
