@@ -20,12 +20,13 @@ export function MapCardItem({
         flexDirection={"row"}
         overflow={"hidden"}
         rounded={"lg"}
+        h={150}
       >
         <Image
           src={imageUrl}
           alt={label}
           objectFit="cover"
-          w={{ base: "100px", md: "200px" }}
+          w={{ base: "100px", md: "150px" }}
         />
         <Box>
           <Card.Body>
