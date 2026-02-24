@@ -7,8 +7,6 @@ import { Loading } from "./components/Loading";
 import { GenericError } from "./components/GenericError";
 import { sanitizeData } from "./utils/misc";
 
-// El RootLayout se importa estáticamente porque es el "cascarón" de tu app
-// y se necesita inmediatamente para mostrar la UI inicial y el Loading.
 import { RootLayout } from "./app/RootLayout";
 
 export const router = createBrowserRouter([
