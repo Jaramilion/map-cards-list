@@ -1,9 +1,11 @@
 import {
+  Button,
   ButtonGroup,
   DataList,
   Flex,
   IconButton,
   Pagination,
+  SimpleGrid,
   Spinner,
 } from "@chakra-ui/react";
 import { MapCardItem } from "./MapCardItem";
@@ -12,22 +14,31 @@ import type { MapTopics } from "@/types";
 import { useState } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
-export const PAGE_SIZE = 5;
-
 export type MapCardListProps = Readonly<{
   displayData: MapTopics[];
   isPending?: boolean;
 }>;
+
+export type LayoutCardsType = Readonly<"list" | "grid">;
+
 export function MapCardList({
   displayData: data,
   isPending,
 }: MapCardListProps) {
+  const [pageSize, setPageSize] = useState(5);
   const [page, setPage] = useState(1);
+  const [layout, setLayout] = useState<LayoutCardsType>("list");
 
-  const startRange = (page - 1) * PAGE_SIZE;
-  const endRange = startRange + PAGE_SIZE;
+  const startRange = (page - 1) * pageSize;
+  const endRange = startRange + pageSize;
 
   const displayData = data.slice(startRange, endRange);
+
+  function onChangeLayout() {
+    const newLayout = layout === "list" ? "grid" : "list";
+    setLayout(newLayout);
+    setPageSize(newLayout === "list" ? 5 : 9);
+  }
 
   if (isPending) {
     return (
@@ -36,16 +47,23 @@ export function MapCardList({
       </Flex>
     );
   }
+  const isList = layout === "list";
   return (
     <Flex flexDirection={"column"}>
+      <Button
+        onClick={onChangeLayout}
+      >{`Change to ${isList ? "grid" : "list"}`}</Button>
       <DataList.Root pt={5}>
-        {displayData.slice(0, PAGE_SIZE).map((card) => (
-          <MapCardItem key={card.id} {...card} />
-        ))}
+        <SimpleGrid columns={isList ? 1 : 3} gap="4">
+          {displayData.slice(0, pageSize).map((card) => (
+            <MapCardItem layout={layout} key={card.id} {...card} />
+          ))}
+        </SimpleGrid>
       </DataList.Root>
+
       <Pagination.Root
         count={data.length}
-        pageSize={PAGE_SIZE}
+        pageSize={pageSize}
         page={page}
         onPageChange={(e) => setPage(e.page)}
         mt={6}
