@@ -13,6 +13,7 @@ import type { MapTopics } from "@/types";
 
 import { useState } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import { useNavigate } from "react-router";
 
 export type MapCardListProps = Readonly<{
   displayData: MapTopics[];
@@ -34,6 +35,8 @@ export function MapCardList({
 
   const displayData = data.slice(startRange, endRange);
 
+  const navigate = useNavigate();
+
   function onChangeLayout() {
     const newLayout = layout === "list" ? "grid" : "list";
     setLayout(newLayout);
@@ -50,9 +53,23 @@ export function MapCardList({
   const isList = layout === "list";
   return (
     <Flex flexDirection={"column"}>
-      <Button
-        onClick={onChangeLayout}
-      >{`Change to ${isList ? "grid" : "list"}`}</Button>
+      <Flex gap={2} flexDirection={"row"} alignItems={"center"}>
+        <Button
+          flex={1}
+          variant={"subtle"}
+          onClick={onChangeLayout}
+        >{`Change to ${isList ? "grid" : "list"}`}</Button>
+
+        <Button
+          flex={1}
+          onClick={() => {
+            navigate("/uploadMap");
+          }}
+          variant={"subtle"}
+        >
+          Upload Map
+        </Button>
+      </Flex>
       <DataList.Root pt={5}>
         <SimpleGrid columns={isList ? 1 : 3} gap="4">
           {displayData.slice(0, pageSize).map((card) => (

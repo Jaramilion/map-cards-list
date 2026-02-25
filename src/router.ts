@@ -62,6 +62,15 @@ export const router = createBrowserRouter([
         HydrateFallback: Loading,
         ErrorBoundary: GenericError,
       },
+      {
+        path: "/uploadMap",
+        lazy: async () => {
+          const { UploadMap } = await import("./app/UploadMap");
+          return { Component: UploadMap };
+        },
+        HydrateFallback: Loading,
+        ErrorBoundary: GenericError,
+      },
     ],
   },
 ]);
